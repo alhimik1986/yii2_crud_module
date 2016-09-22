@@ -51,5 +51,5 @@ if (YII_ENV_DEV) {
 	];
 }
 ```
-Прейдите по адресу: http://localhost?r=gii или http://localhost/gii . Далее перейдите по ссылке "AjaxForm CRUD Generator".
+Прейдите по адресу: http://localhost/index.php?r=gii или http://localhost/gii . Далее перейдите по ссылке "AjaxForm CRUD Generator".
 
