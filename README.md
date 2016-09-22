@@ -1,15 +1,8 @@
 # yii2 ajax crud module
 =========
-[![Latest Stable Version](https://github.com/alhimik1986/yii2_crud_module/v/stable)](https://packagist.org/packages/alhimik1986/yii2_crud_module)
-[![Latest Unstable Version](https://poser.pugx.org/alhimik1986/yii2_crud_module/v/unstable)](https://packagist.org/packages/alhimik1986/yii2_crud_module)
-[![License](https://github.com/alhimik1986/yii2_crud_module/license)](https://packagist.org/packages/alhimik1986/yii2_crud_module)
-[![Total Downloads](https://github.com/alhimik1986/yii2_crud_module/downloads)](https://packagist.org/packages/alhimik1986/yii2_crud_module)
-[![Monthly Downloads](https://github.com/alhimik1986/yii2_crud_module/d/monthly)](https://packagist.org/packages/alhimik1986/yii2_crud_module)
-[![Daily Downloads](https://github.com/alhimik1986/yii2_crud_module/d/daily)](https://packagist.org/packages/alhimik1986/yii2_crud_module)
-
 Отличнейший модуль Gii CRUD для генерации кода одностаничных ajax-приложений на Yii2 framework.
 
-![Yii2AjaxCrud Screenshot](https://github.com/alhimik1986/yii2_crud_module/screenshot.png)
+![Yii2AjaxCrud Screenshot](https://raw.githubusercontent.com/alhimik1986/yii2_crud_module/master/screenshot.png)
 
 ## Характеристики
 - Добавление, чтение, удаление, обновление записей без перезагрузки страницы методом ajax
