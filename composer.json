@@ -18,7 +18,7 @@
             "homepage": "https://github.com/alhimik1986/"
         }
     ],
-	"minimum-stability": "stable",
+	"minimum-stability": "dev",
     "require": {
         "php": ">=5.4.0",
         "alhimik1986/yii2_js_view_module": "1.0.x-dev"
