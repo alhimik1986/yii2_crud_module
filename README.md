@@ -1,5 +1,12 @@
 # yii2 ajax crud module
 =========
+[![Latest Stable Version](https://poser.pugx.org/alhimik1986/yii2_crud_module/v/stable)](https://packagist.org/packages/alhimik1986/yii2_crud_module)
+[![Latest Unstable Version](https://poser.pugx.org/alhimik1986/yii2_crud_module/v/unstable)](https://packagist.org/packages/alhimik1986/yii2_crud_module)
+[![License](https://poser.pugx.org/alhimik1986/yii2_crud_module/license)](https://packagist.org/packages/alhimik1986/yii2_crud_module)
+[![Total Downloads](https://poser.pugx.org/alhimik1986/yii2_crud_module/downloads)](https://packagist.org/packages/alhimik1986/yii2_crud_module)
+[![Monthly Downloads](https://poser.pugx.org/alhimik1986/yii2_crud_module/d/monthly)](https://packagist.org/packages/alhimik1986/yii2_crud_module)
+[![Daily Downloads](https://poser.pugx.org/alhimik1986/yii2_crud_module/d/daily)](https://packagist.org/packages/alhimik1986/yii2_crud_module)
+
 Отличнейший модуль Gii CRUD для генерации кода одностаничных ajax-приложений на Yii2 framework.
 
 ![Yii2AjaxCrud Screenshot](https://raw.githubusercontent.com/alhimik1986/yii2_crud_module/master/screenshot.png)
@@ -44,4 +51,5 @@ if (YII_ENV_DEV) {
 	];
 }
 ```
+Прейдите по адресу: http://localhost?r=gii или http://localhost/gii . Далее перейдите по ссылке "AjaxForm CRUD Generator".
 
