@@ -1,0 +1,36 @@
+{
+    "name": "alhimik1986/yii2_crud_module",
+	"version": "1.0",
+    "description": "Excellent yii2 gii code generator for creating ajax applications.",
+    "keywords": [
+        "yii2",
+		"crud",
+		"gii",
+        "module"
+    ],
+    "homepage": "https://github.com/alhimik1986/",
+    "type": "module",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Nikolay Sidorovich",
+            "email": "sidorovich21101986@mail.ru",
+            "homepage": "https://github.com/alhimik1986/"
+        }
+    ],
+	"minimum-stability": "stable",
+    "require": {
+        "php": ">=5.4.0",
+        "alhimik1986/yii2_js_view_module": "~1.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "alhimik1986\\yii2_crud_module\\": ""
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0.x-dev"
+        }
+    }
+}
