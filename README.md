@@ -1,5 +1,5 @@
 # yii2 ajax crud module
-=========
+
 [![Latest Stable Version](https://poser.pugx.org/alhimik1986/yii2_crud_module/v/stable)](https://packagist.org/packages/alhimik1986/yii2_crud_module)
 [![Latest Unstable Version](https://poser.pugx.org/alhimik1986/yii2_crud_module/v/unstable)](https://packagist.org/packages/alhimik1986/yii2_crud_module)
 [![License](https://poser.pugx.org/alhimik1986/yii2_crud_module/license)](https://packagist.org/packages/alhimik1986/yii2_crud_module)
@@ -16,7 +16,7 @@
 - Возможность удалять записи пачками
 - Используется ajax, а не pjax (поддерживает даже IE8)
 - Имеется пейджер и возожность выставлять число записей на страницу (чего нет ни в одном из extensions для gii)
-- Возможность сортировать по нескольким колонкам одновременно, т.е. например, сперва отсортировать по должностями, а потом эту группу 
+- Возможность сортировать по нескольким колонкам одновременно, т.е. например, сперва отсортировать по должностями, а потом каждую группу 
 отсортировать по фамилии
 - Возможность сортировать по связанным таблицам (как это сделать будет показано ниже)
 - При поиске в текстовом поле не нужно нажимать Enter, поиск запускается автоматически, когда пользователь перестает печатать
