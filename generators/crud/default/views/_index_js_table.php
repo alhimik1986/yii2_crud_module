@@ -12,7 +12,7 @@ function translating6($l18n, $message) {
 <?= '<?php' ?> $table_id = '#'.$className.'-table'; $wrapper_selector = '#'.$className.'-wrapper'; ?>
 
 (function($){$(document).ready(function(){
-	var loadingDom = function(settings){return '<?= '<?=' ?> '<?= '<?=' ?>' ?>$table_id; ?>';}; // Место, где показывать индикатор загрузки
+	var loadingElem = function(settings){return '<?= '<?=' ?> '<?= '<?=' ?>' ?>$table_id; ?>';}; // Место, где показывать индикатор загрузки
 	var loadingStyle = function(settings){                           // Стиль элемента (индикатора загрузки)
 		var result = 'position:absolute;margin-top:2px;margin-left:3px; width:16px; height:16px; background-repeat: no-repeat;';
 		result += "<?= '<?php' ?> echo $loading_img ? 'background-image: url(\''.$loading_img.'\');' : ''; ?>";
@@ -21,7 +21,7 @@ function translating6($l18n, $message) {
 	var csrf = {<?= '<?=' ?>Yii::$app->request->csrfParam . ":'" . Yii::$app->request->csrfToken."'"; ?>};
 	// Форма создания
 	var ajax_form_create = {
-		loadingDom: loadingDom,
+		loadingElem: loadingElem,
 		loadingStyle: loadingStyle,
 		csrf: csrf,
  		form: {
@@ -37,22 +37,22 @@ function translating6($l18n, $message) {
 				};
 			},
 			success : function(data, settings) {
-				$(settings.form.selector).remove();
+				$(settings.form.selector).remove(); // удаляем предыдующую форму, если мы не закроем предыдущую форму и откроем другую, то предыдущие нужно удалять, чтобы они не загромождали друг друга
 				// В этой функции обязательно нужно вернуть jQuery-объект полученной формы для ее последующей обработки
 				return $($(data)).appendTo('<?= '<?=' ?>$wrapper_selector?>');
 			},
 			afterSuccess: function(settings) {
-				var form = settings.form.dom;
-				form.find('form').focus().find('input[type="text"]:first').focus();
+				var $form = settings.form.$;
+				$form.find('form').focus().find('input[type="text"]:first').focus();
 			}
 		},
 		submit: {
 			selector: '.ajax-form-button-submit',
 			ajax: function(settings) {
-				var form = settings.submit.dom.parents('form');
+				var $form = settings.submit.$.parents('form');
 				return {
-					url: form.attr('action'),
-					data: form.serializeArray()
+					url: $form.attr('action'),
+					data: $form.serializeArray()
 				};
 			}
 		},
@@ -69,7 +69,7 @@ function translating6($l18n, $message) {
 	
 	// Форма редактирования
 	var ajax_form_edit = {
-		loadingDom: loadingDom,
+		loadingElem: loadingElem,
 		loadingStyle: loadingStyle,
 		csrf: csrf,
  		form: {
@@ -82,40 +82,41 @@ function translating6($l18n, $message) {
 			ajax: function(settings) {
 				return {
 					url: '<?= '<?=' ?>Url::to(['update']); ?>',
-					data: {id: settings.create.dom.attr('data_id')}
+					data: {id: settings.create.$.attr('data_id')}
 				};
 			},
 			success: function(data, settings) {
+				// Удаляем предыдующую форму, если мы не закроем предыдущую форму и откроем другую, то предыдущие нужно удалять, чтобы они не загромождали друг друга
 				$(settings.form.selector).remove();
 				// В этой функции обязательно нужно вернуть jQuery-объект полученной формы для ее последующей обработки
 				return $(data).appendTo('<?= '<?=' ?>$wrapper_selector?>');
 			},
 			afterSuccess: function(settings) {
-				var form = settings.form.dom;
-				form.find('form').focus().find('input[type="text"]:first').focus();
+				var $form = settings.form.$;
+				$form.find('form').focus().find('input[type="text"]:first').focus();
 			}
 		},
 		submit: {
 			selector: '.ajax-form-button-submit, .ajax-form-button-delete',
 			ajax: function(settings) {
-				var form = settings.submit.dom.parents('form');
-				if ( settings.submit.dom.hasClass('ajax-form-button-delete')) {
+				var $form = settings.submit.$.parents('form');
+				if ( settings.submit.$.hasClass('ajax-form-button-delete')) {
 					if ( ! confirm('<?= translating6($l18n, 'Remove permanently the record?'); ?>'))
 						return false;
-				} else if (form.find('.ajax-form-button-delete').length == 0 && form.find(':checkbox[name="<?= '<?=' ?>$className; ?>[removed]"]').is(':checked')) {
+				} else if ($form.find('.ajax-form-button-delete').length == 0 && $form.find(':checkbox[name="<?= '<?=' ?>$className; ?>[removed]"]').is(':checked')) {
 					if ( ! confirm('<?= translating6($l18n, 'Mark the record as removed?'); ?>'))
 						return false;
 				}
 				
 				var $_return = {};
 				
-				var url = form.attr('action');
-				var data = form.serializeArray();
-				if ( settings.submit.dom.hasClass('ajax-form-button-delete')) {
+				var url = $form.attr('action');
+				var data = $form.serializeArray();
+				if ( settings.submit.$.hasClass('ajax-form-button-delete')) {
 					url = '<?= '<?=' ?>Url::to(['delete']); ?>';
 					data = {
 						<?= '<?=' ?>$className; ?>: {
-							id: settings.create.dom.attr('data_id')
+							id: settings.create.$.attr('data_id')
 						}
 					};
 				}
@@ -138,14 +139,13 @@ function translating6($l18n, $message) {
 	
 	// Удаление записи в таблице
 	var ajax_form_delete = {
-		loadingDom: loadingDom,
+		loadingElem: loadingElem,
 		loadingStyle: loadingStyle,
 		csrf: csrf,
 		create: {
 			delegator: '<?= '<?=' ?>$wrapper_selector?>',
 			selector: '[delete_data_id]',
 			on: 'click',
-			type: 'post',
 			ajax: function(settings) {
 				if ( ! confirm('<?= translating6($l18n, 'Remove permanently the record?'); ?>'))
 					return false;
@@ -154,9 +154,10 @@ function translating6($l18n, $message) {
 					url: '<?= '<?=' ?>Url::to(['delete']); ?>',
 					data: {
 						<?= '<?=' ?>$className; ?>: {
-							id: settings.create.dom.attr('delete_data_id')
+							id: settings.create.$.attr('delete_data_id')
 						}
-					}
+					},
+					type: 'post'
 				};
 			},
 			success: function(data, settings) {
@@ -170,14 +171,13 @@ function translating6($l18n, $message) {
 	
 	// Удаление выделенных записей в таблице
 	var ajax_form_delete_selected = {
-		loadingDom: loadingDom,
+		loadingElem: loadingElem,
 		loadingStyle: loadingStyle,
 		csrf: csrf,
 		create: {
 			delegator: '<?= '<?=' ?>$wrapper_selector?>',
 			selector: '.ajax-form-button-deleteAll',
 			on: 'click',
-			type: 'post',
 			ajax: function(settings) {
 				if ( ! confirm('<?= translating6($l18n, 'Remove selected records?'); ?>'))
 					return false;
@@ -194,7 +194,8 @@ function translating6($l18n, $message) {
 						<?= '<?=' ?>$className; ?>: {
 							ids: ids
 						}
-					}
+					},
+					type: 'post'
 				};
 			},
 			success: function(data, settings) {
@@ -207,7 +208,7 @@ function translating6($l18n, $message) {
 	
 	// Просмотр записи
 	var ajax_form_view = {
-		loadingDom: loadingDom,
+		loadingElem: loadingElem,
 		loadingStyle: loadingStyle,
 		csrf: csrf,
  		form: {
@@ -220,7 +221,7 @@ function translating6($l18n, $message) {
 			ajax: function(settings) {
 				return {
 					url: '<?= '<?=' ?>Url::to(['view']); ?>',
-					data: {id: settings.create.dom.attr('view_data_id')}
+					data: {id: settings.create.$.attr('view_data_id')}
 				};
 			},
 			success: function(data, settings) {
@@ -229,8 +230,8 @@ function translating6($l18n, $message) {
 				return $(data).appendTo('<?= '<?=' ?>$wrapper_selector?>');
 			},
 			afterSuccess: function(settings) {
-				var form = settings.form.dom;
-				form.find('form').focus();
+				var $form = settings.form.$;
+				$form.find('form').focus();
 			}
 		}
 	};
