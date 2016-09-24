@@ -9,6 +9,8 @@
 
 Отличнейший модуль Gii CRUD для генерации кода одностаничных ajax-приложений на Yii2 framework.
 
+Демонстрация: http://tfb7950x.bget.ru/application/web/index.php?r=film
+
 ![Yii2AjaxCrud Screenshot](https://raw.githubusercontent.com/alhimik1986/yii2_crud_module/master/screenshot.png)
 
 ## Характеристики
