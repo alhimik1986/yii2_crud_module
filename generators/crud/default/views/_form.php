@@ -28,7 +28,7 @@ use yii\widgets\ActiveForm;
 /* @var $model <?= ltrim($generator->modelClass, '\\') ?> */
 /* @var $form yii\widgets\ActiveForm */
 
-$className = basename($model::className());
+$className = substr(strrchr($model::className(), "\\"), 1);
 ?>
 
 <div class="ajax-form" style="width:800px; background: #f5f5f5; box-shadow: 5px 5px 15px 5px; z-index:105;" id="<?= '<?= ' ?>$className; ?>-ajax-form">

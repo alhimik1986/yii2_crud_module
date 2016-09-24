@@ -52,8 +52,8 @@ use yii\widgets\ActiveForm;
 $this->title = <?= $generator->generateString(Inflector::pluralize(Inflector::camel2words(StringHelper::basename($generator->modelClass)))) ?>;
 $this->params['breadcrumbs'][] = $this->title;
 
-$className = basename($searchModel::className());
-$parentClassName = basename($model::className());
+$className = substr(strrchr($searchModel::className(), "\\"), 1);
+$parentClassName = substr(strrchr($model::className(), "\\"), 1);
 $tableName = $model::tableName();
 $loading_img = ($loading_img = Yii::$app->assetManager->publish(Yii::getAlias('@vendor').'/alhimik1986/yii2_js_view_module/assets/img/ajax-loader.gif')) ? $loading_img[1] : '';
 echo $this->render('_js_plugins', ['className'=>$parentClassName, 'loading_img' => $loading_img]);
