@@ -199,65 +199,8 @@ new ajaxForm({
 	},
 });
 ```
-Таким же образом можно перезаписать любую другую системную функцию: _success, _afterSuccess, _notValid и т.д. Подробнее узнать 
+Таким же образом можно перезаписать любую другую системную функцию: _success, _afterSuccess и т.д. Подробнее узнать 
 о назначении этих функциий можно, заглянув в ajax-form.js.
-
-Также есть методы: notValid(data, settings) - вызывается при ошибках валидации, и error(xhr, settings) - вызывается, если возникла
-внутренняя ошибка сервера.
-И у них есть соответствующие системные методы: _notValid(data, settings) и _error(xhr, exception). Соответственно, если мы хотим
-отключить вывод ошибок валидации или вывод внутренней ошибки сервера, то вот пример кода:
-```
-new ajaxForm({
-	create: {
-		...
-		_notValid: function(){}, // отключаю вывод ошибок валидации
-		_error: function(){},    // отключаю вывод внутренней ошибки сервера
-	},
-});
-```
-Если нам нужно выводить ошибки валидации не на всех полях, а только на одном первом попавшемся поле, то советую использовать такой код:
-```
-// Эффект тряски и навести фокус на указанный элемент
-window.shakeAndFocus = function($elem) {
-	if ($elem.length > 0) {
-		$('html, body').stop().animate({scrollTop: $elem.offset().top - 90}, 200, function(){
-			<?php if ($this->isMobileOrTablet()): ?>
-				$elem.focus().shake(3, 5, 100);
-			<?php else: ?>
-				$elem.focus();
-			<?php endIf; ?>
-		});
-	}
-};
-
-new ajaxForm({
-	create: {
-		...
-		notValid: function(data, settings){
-			var $form = settings.create.$.parents('form');
-			$form.find('.error:not(:first)').parent().html('');
-			$form.find('.input-error:not(:first)').removeClass('input-error');
-			$form.find('.label-error:not(:first)').removeClass('label-error');
-			$form.find('.has-error').removeClass('has-error');
-			// Получаю самое первое поле с ошибкой
-			var i, j, k, id;
-			for(i in data) {
-				for(j in data[i]) {
-					for(k in data[i][j]) {
-						id = i+'_'+j;
-						break;
-					}
-					break;
-				}
-				break;
-			}
-			
-			var $input = $form.find('#'+id).first();
-			window.shakeAndFocus($input);
-		},
-	},
-});
-```
 
 
 #### Объект submit
@@ -307,6 +250,64 @@ new ajaxForm({
 ```
 Если была нажата кнопка "Сохранить", то подставляем один адрес и параметры, а если нажата кнопка "Удалить", то подставляем другие адрес
 и параметры запроса.
+
+
+Также есть методы: notValid(data, settings) - вызывается при ошибках валидации, и error(xhr, settings) - вызывается, если возникла
+внутренняя ошибка сервера.
+И у них есть соответствующие системные методы: _notValid(data, settings) и _error(xhr, exception). Соответственно, если мы хотим
+отключить вывод ошибок валидации или вывод внутренней ошибки сервера, то вот пример кода:
+```
+new ajaxForm({
+	submit: {
+		...
+		_notValid: function(){}, // отключаю вывод ошибок валидации
+		_error: function(){},    // отключаю вывод внутренней ошибки сервера
+	},
+});
+```
+Если нам нужно выводить ошибки валидации не на всех полях, а только на одном первом попавшемся поле, то советую использовать такой код:
+```
+// Эффект тряски и навести фокус на указанный элемент
+window.shakeAndFocus = function($elem) {
+	if ($elem.length > 0) {
+		$('html, body').stop().animate({scrollTop: $elem.offset().top - 90}, 200, function(){
+			<?php if ($this->isMobileOrTablet()): ?>
+				$elem.focus().shake(3, 5, 100);
+			<?php else: ?>
+				$elem.focus();
+			<?php endIf; ?>
+		});
+	}
+};
+
+new ajaxForm({
+	submit: {
+		...
+		notValid: function(data, settings){
+			var $form = settings.create.$.parents('form');
+			$form.find('.error:not(:first)').parent().html('');
+			$form.find('.input-error:not(:first)').removeClass('input-error');
+			$form.find('.label-error:not(:first)').removeClass('label-error');
+			$form.find('.has-error').removeClass('has-error');
+			// Получаю самое первое поле с ошибкой
+			var i, j, k, id;
+			for(i in data) {
+				for(j in data[i]) {
+					for(k in data[i][j]) {
+						id = i+'_'+j;
+						break;
+					}
+					break;
+				}
+				break;
+			}
+			
+			var $input = $form.find('#'+id).first();
+			window.shakeAndFocus($input);
+		},
+	},
+});
+```
 
 
 #### Объект afterSubmit
