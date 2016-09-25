@@ -32,6 +32,7 @@ namespace <?= StringHelper::dirname(ltrim($generator->controllerClass, '\\')) ?>
 use Yii;
 use <?= ltrim($generator->modelClass, '\\') ?> as Model;
 use <?= ltrim($generator->searchModelClass, '\\') ?> as SearchModel;
+use yii\helpers\StringHelper;
 use alhimik1986\yii2_crud_module\web\JsonController as Controller;
 
 /**
@@ -122,7 +123,8 @@ class <?= $controllerClass ?> extends Controller
      */
     public function actionDelete()
     {
-		$param = Yii::$app->request->post(basename(Model::className()));
+		$className = StringHelper::basename(Model::className());
+		$param = Yii::$app->request->post($className);
 		$id = isset($param['id']) ? $param['id'] : null;
         $model = $this->findModel($id);
 		$model->delete();
@@ -134,7 +136,8 @@ class <?= $controllerClass ?> extends Controller
      */
     public function actionDeleteSelected()
     {
-		$param = Yii::$app->request->post(basename(Model::className()));
+		$className = StringHelper::basename(Model::className());
+		$param = Yii::$app->request->post($className);
 		$ids = (isset($param['ids']) AND is_array($param['ids'])) ? $param['ids'] : array();
 		$resultModel = false;
 		foreach($ids as $id) {

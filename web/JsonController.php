@@ -10,6 +10,7 @@
 namespace alhimik1986\yii2_crud_module\web;
 
 use Yii;
+use yii\helpers\StringHelper;
 
 class JsonController extends \yii\web\Controller
 {
@@ -23,7 +24,7 @@ class JsonController extends \yii\web\Controller
 			foreach(Yii::$app->session->getAllFlashes() as $type=>$message)
 				$messages[][$type] = $message;
 			
-			$className = basename($model::className());
+			$className = StringHelper::basename($model::className());
 			
 			if ($model->hasErrors()) {
 				echo json_encode(array(
