@@ -31,13 +31,13 @@ use yii\helpers\StringHelper;
 /* @var $this yii\web\View */
 /* @var $model <?= ltrim($generator->modelClass, '\\') ?> */
 /* @var $form yii\widgets\ActiveForm */
+/* @var $modelName string */
 
-$className = StringHelper::basename($model::className());
 ?>
 
-<div class="ajax-form" style="width:800px; background: #f5f5f5; box-shadow: 5px 5px 15px 5px; z-index:105; border-radius:5px;" id="<?= '<?= ' ?>$className; ?>-ajax-form">
+<div class="ajax-form" style="width:800px; background: #f5f5f5; box-shadow: 5px 5px 15px 5px; z-index:105; border-radius:5px;" id="<?= '<?= ' ?>$modelName; ?>-ajax-form">
 	<?= "<?php " ?>$form = ActiveForm::begin([
-		'id'=>$className.'-form',
+		'id'=>$modelName.'-form',
 		'enableClientValidation' => true,
 		'options' => [
 			'tabindex' => 2, // It's need to the hot keys works in the form

@@ -57,8 +57,8 @@ use yii\helpers\StringHelper;
 $this->title = <?= $generator->generateString(Inflector::pluralize(Inflector::camel2words(StringHelper::basename($generator->modelClass)))) ?>;
 $this->params['breadcrumbs'][] = $this->title;
 
-echo $this->render('index/_js_plugins', ['className'=>$modelName, 'loading_img' => $loading_img]);
-Yii::$app->view->registerJs($this->render('index/_js_table', ['className'=>$modelName, 'loading_img' => $loading_img]));
+echo $this->render('index/_js_plugins', ['modelName'=>$modelName, 'loading_img' => $loading_img]);
+Yii::$app->view->registerJs($this->render('index/_js_table', ['modelName'=>$modelName, 'loading_img' => $loading_img]));
 ?>
 
 

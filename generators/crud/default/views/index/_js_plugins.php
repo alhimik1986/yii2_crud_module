@@ -1,13 +1,13 @@
 <?= '<?php' ?>
 
-/* @var $className string */
+/* @var $modelName string */
 /* @var $loading_img string */
 
 Yii::$app->view->registerJs(alhimik1986\yii2_js_view_module\components\JSPlugins::includePlugins([
 	'ajaxTable' => [
 		[
-			'tbl_selector' => '#'.$className.'-table',                   // Селектор ajax-таблицы для поиска
-			'error_selector' => '#'.$className.'-errors',                // Место, куда будут выводиться нестандартные ошибки валидации
+			'tbl_selector' => '#'.$modelName.'-table',                   // Селектор ajax-таблицы для поиска
+			'error_selector' => '#'.$modelName.'-errors',                // Место, куда будут выводиться нестандартные ошибки валидации
 			'search_url' => \yii\helpers\Url::to(['search']),            // url-адрес, куда отправлять искомые данные
 			'search_request_type' => 'get',                              // Тип запроса при поиске в таблице
 			'search_on_change_selector' => '.search-on-change',          // Селектор элементов, при изменении или нажатии клавиш которых осуществлять поиск

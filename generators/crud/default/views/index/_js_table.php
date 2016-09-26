@@ -5,11 +5,11 @@ function translating6($l18n, $message) {
 }
 
 ?>
-<?= '<?php' ?> /* @var $className string */ ?>
+<?= '<?php' ?> /* @var $modelName string */ ?>
 <?= '<?php' ?> /* @var $loading_img string */ ?>
 <?= '<?php' ?> if (false): ?><script type="text/javascript"><?= '<?php' ?> endIf; // Эта строка нужна только для подстветки синтаксиса ?>
 <?= '<?php' ?> use yii\helpers\Url; ?>
-<?= '<?php' ?> $table_id = '#'.$className.'-table'; $wrapper_selector = '#'.$className.'-wrapper'; ?>
+<?= '<?php' ?> $table_id = '#'.$modelName.'-table'; $wrapper_selector = '#'.$modelName.'-wrapper'; ?>
 
 (function($){$(document).ready(function(){
 	var loadingElem = function(settings){return '<?= '<?=' ?> '<?= '<?=' ?>' ?>$table_id; ?>';}; // Место, где показывать индикатор загрузки
@@ -25,7 +25,7 @@ function translating6($l18n, $message) {
 		loadingStyle: loadingStyle,
 		csrf: csrf,
  		form: {
-			selector: '#<?= '<?=' ?>$className; ?>-ajax-form' // Селектор формы (ее обертки). Нужна, т.к. при открытии новой формы нужно закрыть предыдущую
+			selector: '#<?= '<?=' ?>$modelName; ?>-ajax-form' // Селектор формы (ее обертки). Нужна, т.к. при открытии новой формы нужно закрыть предыдущую
 		},
 		create: {
 			delegator: '<?= '<?=' ?>$wrapper_selector?>',
@@ -73,7 +73,7 @@ function translating6($l18n, $message) {
 		loadingStyle: loadingStyle,
 		csrf: csrf,
  		form: {
-			selector: '#<?= '<?=' ?>$className; ?>-ajax-form'  // Селектор формы (ее обертки). Нужна, т.к. при открытии новой формы нужно закрыть предыдущую
+			selector: '#<?= '<?=' ?>$modelName; ?>-ajax-form'  // Селектор формы (ее обертки). Нужна, т.к. при открытии новой формы нужно закрыть предыдущую
 		},
 		create: {
 			delegator: '<?= '<?=' ?>$wrapper_selector?>',
@@ -103,7 +103,7 @@ function translating6($l18n, $message) {
 				if ( settings.submit.$.hasClass('ajax-form-button-delete')) {
 					if ( ! confirm('<?= translating6($l18n, 'Remove permanently the record?'); ?>'))
 						return false;
-				} else if ($form.find('.ajax-form-button-delete').length == 0 && $form.find(':checkbox[name="<?= '<?=' ?>$className; ?>[removed]"]').is(':checked')) {
+				} else if ($form.find('.ajax-form-button-delete').length == 0 && $form.find(':checkbox[name="<?= '<?=' ?>$modelName; ?>[removed]"]').is(':checked')) {
 					if ( ! confirm('<?= translating6($l18n, 'Mark the record as removed?'); ?>'))
 						return false;
 				}
@@ -115,7 +115,7 @@ function translating6($l18n, $message) {
 				if ( settings.submit.$.hasClass('ajax-form-button-delete')) {
 					url = '<?= '<?=' ?>Url::to(['delete']); ?>';
 					data = {
-						<?= '<?=' ?>$className; ?>: {
+						<?= '<?=' ?>$modelName; ?>: {
 							id: settings.create.$.attr('data_id')
 						}
 					};
@@ -153,7 +153,7 @@ function translating6($l18n, $message) {
 				return {
 					url: '<?= '<?=' ?>Url::to(['delete']); ?>',
 					data: {
-						<?= '<?=' ?>$className; ?>: {
+						<?= '<?=' ?>$modelName; ?>: {
 							id: settings.create.$.attr('delete_data_id')
 						}
 					},
@@ -191,7 +191,7 @@ function translating6($l18n, $message) {
 				return {
 					url: '<?= '<?=' ?>Url::to(['delete-selected']); ?>',
 					data: {
-						<?= '<?=' ?>$className; ?>: {
+						<?= '<?=' ?>$modelName; ?>: {
 							ids: ids
 						}
 					},
@@ -212,7 +212,7 @@ function translating6($l18n, $message) {
 		loadingStyle: loadingStyle,
 		csrf: csrf,
  		form: {
-			selector: '#<?= '<?=' ?>$className; ?>-ajax-form'  // Селектор формы (ее обертки). Нужна, т.к. при открытии новой формы нужно закрыть предыдущую
+			selector: '#<?= '<?=' ?>$modelName; ?>-ajax-form'  // Селектор формы (ее обертки). Нужна, т.к. при открытии новой формы нужно закрыть предыдущую
 		},
 		create: {
 			delegator: '<?= '<?=' ?>$wrapper_selector?>',
@@ -237,8 +237,8 @@ function translating6($l18n, $message) {
 	};
 	new ajaxForm(ajax_form_view);
 	
-	$('[name="<?= '<?=' ?>$className; ?>[all_text]"]').focus();
-	$(document).on('submit', '#<?= '<?=' ?>$className; ?>-form', function(e){
+	$('[name="<?= '<?=' ?>$modelName; ?>[all_text]"]').focus();
+	$(document).on('submit', '#<?= '<?=' ?>$modelName; ?>-form', function(e){
 		if ( ! $(this).hasClass('submit'))
 			return false;
 	});

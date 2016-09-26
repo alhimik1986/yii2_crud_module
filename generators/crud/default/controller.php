@@ -83,6 +83,7 @@ class <?= $controllerClass ?> extends Controller
 
 		return $this->renderJson('_view', [
 			'model' => $model,
+			'modelName' => StringHelper::basename($model::className()),
 			'formTitle' => 'View',
 		]);
     }
@@ -100,6 +101,7 @@ class <?= $controllerClass ?> extends Controller
         } else {
             return $this->renderJson('_form', [
                 'model' => $model,
+				'modelName' => StringHelper::basename($model::className()),
 				'formTitle' => 'New record',
             ]);
         }
@@ -118,6 +120,7 @@ class <?= $controllerClass ?> extends Controller
         } else {
             return $this->renderJson('_form', [
                 'model' => $model,
+				'modelName' => StringHelper::basename($model::className()),
 				'formTitle' => 'Edit record',
             ]);
         }
@@ -128,8 +131,8 @@ class <?= $controllerClass ?> extends Controller
      */
     public function actionDelete()
     {
-		$className = StringHelper::basename(Model::className());
-		$param = Yii::$app->request->post($className);
+		$modelName = StringHelper::basename(Model::className());
+		$param = Yii::$app->request->post($modelName);
 		$id = isset($param['id']) ? $param['id'] : null;
         $model = $this->findModel($id);
 		$model->delete();
@@ -141,8 +144,8 @@ class <?= $controllerClass ?> extends Controller
      */
     public function actionDeleteSelected()
     {
-		$className = StringHelper::basename(Model::className());
-		$param = Yii::$app->request->post($className);
+		$modelName = StringHelper::basename(Model::className());
+		$param = Yii::$app->request->post($modelName);
 		$ids = (isset($param['ids']) AND is_array($param['ids'])) ? $param['ids'] : array();
 		$resultModel = false;
 		foreach($ids as $id) {
