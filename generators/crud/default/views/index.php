@@ -57,16 +57,14 @@ use yii\helpers\StringHelper;
 $this->title = <?= $generator->generateString(Inflector::pluralize(Inflector::camel2words(StringHelper::basename($generator->modelClass)))) ?>;
 $this->params['breadcrumbs'][] = $this->title;
 
-echo $this->render('_js_plugins', ['className'=>$modelName, 'loading_img' => $loading_img]);
-Yii::$app->view->registerJs($this->render('_index_js_table', ['className'=>$modelName, 'loading_img' => $loading_img]));
+echo $this->render('index/_js_plugins', ['className'=>$modelName, 'loading_img' => $loading_img]);
+Yii::$app->view->registerJs($this->render('index/_js_table', ['className'=>$modelName, 'loading_img' => $loading_img]));
 ?>
+
+
 <!-- Этот id нужен для разделения crud-ов, когда на одной странице находится несколько таких таблиц, чтобы на каждую таблицу дейстовали свои кнопки. -->
 <!-- This id required for the separation of several crud-s, when some crud-tables are on the same page. Dividing them by the id, the every buttons works for corresponding tables. -->
 <div id="<?= '<?=' ?> $modelName?>-wrapper">
-    <!--<h1>Title</h1>    
-    <p>Description</p>-->
-
-	<!-- В этот блок будут выводиться нестандартные ошибки валидации -->
 	<!-- The custom validation errors will be displayed in this block -->
 	<div id="<?= '<?=' ?>$modelName?>-errors"></div>
 	
@@ -74,35 +72,12 @@ Yii::$app->view->registerJs($this->render('_index_js_table', ['className'=>$mode
 		'id'=>$modelName.'-form',
 		'enableClientValidation' => true,
 		'options' => [
-			// tabindex нужен, чтобы внутри кнопки дейстовали горячие клавиши
-			// The tabindex needs for working the hot keys in the form
-			'tabindex' => 2,
+			'tabindex' => 2, // The tabindex needs for working the hot keys in the form
 		],
 	]); ?>
     <div>
-		<!-- Дополнительная шапка таблицы -->
 		<!-- Additional table header -->
-		<div style="background: #efefef; padding:10px 10px 0 10px; border-top-left-radius:3px; border-top-right-radius:3px; border:1px solid #ccc;">
-			<div style="float:left;">
-				<p>
-					<a class="btn btn-success ajax-form-button-create" href="#">
-						<i class="glyphicon glyphicon-plus"></i> <?=translating2($l18n, 'Create')?> 
-					</a>
-				</p>
-			</div>
-			<div style="float:left; margin-left:50px; margin-top:5px;">
-				<?=translating2($l18n, 'Results per page')?>: 
-				<?= '<?='?>Html::dropDownList('per-page', 10, [1=>1, 3=>3, 5=>5, 10=>10, 30=>30, 100=>100], ['class'=>'search-on-change']); ?>
-			</div>
-			<div style="float:right;">
-				<p>
-					<a class="btn btn-danger ajax-form-button-deleteAll" href="#">
-						<i class="glyphicon glyphicon-trash"></i> <?=translating2($l18n, 'Delete selected')?> 
-					</a>
-				</p>
-			</div>
-			<div style="clear:both;"></div>
-		</div>
+		<?= '<?=' ?> $this->render('index/_tableHeader') ?>
 		
 		<!-- Table -->
 		<div class="grid-view">
