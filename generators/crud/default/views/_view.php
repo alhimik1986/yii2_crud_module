@@ -35,7 +35,7 @@ use yii\helpers\StringHelper;
 $className = StringHelper::basename($model::className());
 ?>
 
-<div class="ajax-form" style="width:800px; background: #f5f5f5; box-shadow: 5px 5px 15px 5px; z-index:105;" id="<?= '<?= ' ?>$className; ?>-ajax-form">
+<div class="ajax-form" style="width:800px; background: #f5f5f5; box-shadow: 5px 5px 15px 5px; z-index:105; border-radius:5px;" id="<?= '<?= ' ?>$className; ?>-ajax-form">
 	<?= "<?php " ?>$form = ActiveForm::begin([
 		'id'=>$className.'-form',
 		'enableClientValidation' => true,
@@ -89,5 +89,5 @@ if (($tableSchema = $generator->getTableSchema()) === false) {
 		</div>
 	</div>
 	<?= "<?php " ?>ActiveForm::end(); ?>
-	<div class="resizable" style="cursor:se-resize;position:absolute;bottom:0px;right:0px;width:10px;height:10px;background:#aab;"></div>
+	<div class="resizable" style="cursor:se-resize;position:absolute;bottom:0px;right:0px;width:10px;height:10px;background:#aab;border-bottom-right-radius:3px;"></div>
 </div>
