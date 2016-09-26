@@ -50,7 +50,7 @@ $className = StringHelper::basename($model::className());
 		</tr></table>
 		
 		<!-- Form body -->
-		<div class="panel-body ajax-form-body" style="overflow: auto; height:80%;"> <!-- к .ajax-form-body привязано изменение размера по вертикали, изменение размера по горизонтали привязано к .ajax-form --> <!-- To .ajax-form-body binded the resizing by vertical, resizing by horizontal binded to .ajax-form -->
+		<div class="panel-body ajax-form-body" style="overflow: auto; height:80%;"> <!-- к .ajax-form-body, .ajax-form-footer привязано изменение размера по вертикали, изменение размера по горизонтали привязано к .ajax-form --> <!-- To .ajax-form-body, .ajax-form-footer binded the resizing by vertical, resizing by horizontal binded to .ajax-form -->
 <?php foreach ($generator->getColumnNames() as $attribute) {
     if (in_array($attribute, $safeAttributes)) {
         echo "			<?= " . $generator->generateActiveField($attribute) . " ?>\n\n";
@@ -59,7 +59,7 @@ $className = StringHelper::basename($model::className());
 		</div>
 		
 		<!-- Form footer -->
-		<div class="panel-footer">
+		<div class="panel-footer ajax-form-footer">
 			<table style="width:100%;"><tr>
 				<td style="text-align:left;">
 					<?= "<?php " ?> if ( ! $model->isNewRecord): ?>
