@@ -183,6 +183,20 @@ class Generator extends \yii\gii\Generator
             }
         }
 
+		// Search in subdirectory
+		$templatePath = $templatePath.'/index';
+		$viewPath = $viewPath.'/index';
+		if (is_dir($templatePath)) {
+			foreach (scandir($templatePath) as $file) {
+				if (empty($this->searchModelClass) && $file === '_search.php') {
+					continue;
+				}
+				if (is_file($templatePath . '/' . $file) && pathinfo($file, PATHINFO_EXTENSION) === 'php') {
+					$files[] = new CodeFile("$viewPath/$file", $this->render("views/index/$file"));
+				}
+			}
+		}
+
         return $files;
     }
 
