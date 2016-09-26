@@ -43,6 +43,10 @@ echo "<?php\n";
 ?>
 <?= !empty($generator->searchModelClass) ? "/* @var \$searchModel " . ltrim($generator->searchModelClass, '\\') . " */\n" : '' ?>
 <?= "/* @var \$model " . ltrim($generator->modelClass, '\\') . " */\n" ?>
+/* @var $searchModelName string */
+/* @var $modelName string */
+/* @var $tableName string */
+/* @var $loading_img string */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 use yii\helpers\Html;
@@ -53,25 +57,21 @@ use yii\helpers\StringHelper;
 $this->title = <?= $generator->generateString(Inflector::pluralize(Inflector::camel2words(StringHelper::basename($generator->modelClass)))) ?>;
 $this->params['breadcrumbs'][] = $this->title;
 
-$className = StringHelper::basename($searchModel::className());
-$parentClassName = StringHelper::basename($model::className());
-$tableName = $model::tableName();
-$loading_img = ($loading_img = Yii::$app->assetManager->publish(Yii::getAlias('@vendor').'/alhimik1986/yii2_js_view_module/assets/img/ajax-loader.gif')) ? $loading_img[1] : '';
-echo $this->render('_js_plugins', ['className'=>$parentClassName, 'loading_img' => $loading_img]);
-Yii::$app->view->registerJs($this->render('_index_js_table', ['className'=>$parentClassName, 'loading_img' => $loading_img]));
+echo $this->render('_js_plugins', ['className'=>$modelName, 'loading_img' => $loading_img]);
+Yii::$app->view->registerJs($this->render('_index_js_table', ['className'=>$modelName, 'loading_img' => $loading_img]));
 ?>
 <!-- Этот id нужен для разделения crud-ов, когда на одной странице находится несколько таких таблиц, чтобы на каждую таблицу дейстовали свои кнопки. -->
 <!-- This id required for the separation of several crud-s, when some crud-tables are on the same page. Dividing them by the id, the every buttons works for corresponding tables. -->
-<div id="<?= '<?=' ?> $parentClassName?>-wrapper">
+<div id="<?= '<?=' ?> $modelName?>-wrapper">
     <!--<h1>Title</h1>    
     <p>Description</p>-->
 
 	<!-- В этот блок будут выводиться нестандартные ошибки валидации -->
 	<!-- The custom validation errors will be displayed in this block -->
-	<div id="<?= '<?=' ?>$parentClassName?>-errors"></div>
+	<div id="<?= '<?=' ?>$modelName?>-errors"></div>
 	
 	<?= '<?php' ?> $form = ActiveForm::begin([
-		'id'=>$parentClassName.'-form',
+		'id'=>$modelName.'-form',
 		'enableClientValidation' => true,
 		'options' => [
 			// tabindex нужен, чтобы внутри кнопки дейстовали горячие клавиши
@@ -80,24 +80,33 @@ Yii::$app->view->registerJs($this->render('_index_js_table', ['className'=>$pare
 		],
 	]); ?>
     <div>
-		<div style="float:left;">
-			<p>
-				<a class="btn btn-success ajax-form-button-create" href="#">
-					<i class="glyphicon glyphicon-plus"></i> <?=translating2($l18n, 'Create')?> 
-				</a>
-			</p>
+		<!-- Дополнительная шапка таблицы -->
+		<!-- Additional table header -->
+		<div style="background: #efefef; padding:10px 10px 0 10px; border-top-left-radius:3px; border-top-right-radius:3px; border:1px solid #ccc;">
+			<div style="float:left;">
+				<p>
+					<a class="btn btn-success ajax-form-button-create" href="#">
+						<i class="glyphicon glyphicon-plus"></i> <?=translating2($l18n, 'Create')?> 
+					</a>
+				</p>
+			</div>
+			<div style="float:left; margin-left:50px; margin-top:5px;">
+				<?=translating2($l18n, 'Results per page')?>: 
+				<?= '<?='?>Html::dropDownList('per-page', 10, [1=>1, 3=>3, 5=>5, 10=>10, 30=>30, 100=>100], ['class'=>'search-on-change']); ?>
+			</div>
+			<div style="float:right;">
+				<p>
+					<a class="btn btn-danger ajax-form-button-deleteAll" href="#">
+						<i class="glyphicon glyphicon-trash"></i> <?=translating2($l18n, 'Delete selected')?> 
+					</a>
+				</p>
+			</div>
+			<div style="clear:both;"></div>
 		</div>
-		<div style="float:right;">
-			<p>
-				<a class="btn btn-danger ajax-form-button-deleteAll" href="#">
-					<i class="glyphicon glyphicon-trash"></i> <?=translating2($l18n, 'Delete selected')?> 
-				</a>
-			</p>
-		</div>
-		<div style="clear:both;"></div>
 		
+		<!-- Table -->
 		<div class="grid-view">
-			<table class="table table-striped table-bordered table-condensed" id="<?= '<?='?>$parentClassName?>-table">
+			<table class="table table-striped table-bordered table-condensed" id="<?= '<?='?>$modelName?>-table">
 				<thead>
 					<tr>
 						<th><input type="checkbox" class="select-all-records-checkbox" onclick="jQuery(this).parents('table').find('tbody td:nth-child('+(jQuery(this).parents('th')[0].cellIndex+1)+') :checkbox').prop('checked', jQuery(this).prop('checked')); jQuery(this).parents('table').find('tbody tr:has(:checkbox)').toggleClass('danger', jQuery(this).prop('checked'));"></th>
@@ -120,18 +129,18 @@ Yii::$app->view->registerJs($this->render('_index_js_table', ['className'=>$pare
 						<td>&nbsp;</td>
 						<td>&nbsp;</td>
 <?php foreach($columns as $column): ?>
-						<td><input type="text" name="<?='<?='?>$className?>[<?=$column?>]" class="form-control search-on-change"></td>
+						<td><input type="text" name="<?='<?='?>$searchModelName?>[<?=$column?>]" class="form-control search-on-change"></td>
 <?php endForeach; ?>
 <?php if ($remaining_columns): ?>
 <!--
 <?php endIf; ?>
 <?php foreach($remaining_columns as $column): ?>
-						<td><input type="text" name="<?='<?='?>$className?>[<?=$column?>]" class="form-control search-on-change"></td>
+						<td><input type="text" name="<?='<?='?>$searchModelName?>[<?=$column?>]" class="form-control search-on-change"></td>
 <?php endForeach; ?>
 <?php if ($remaining_columns): ?>
 -->
 <?php endIf; ?>
-						<td><?= '<?='?>Html::dropDownList('per-page', 10, [1=>1, 3=>3, 5=>5, 10=>10, 30=>30, 100=>100], ['class'=>'search-on-change']); ?></td>
+						<td></td>
 					</tr>
 				</thead>
 				<tbody>

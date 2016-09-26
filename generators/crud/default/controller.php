@@ -61,10 +61,15 @@ class <?= $controllerClass ?> extends Controller
     public function actionIndex()
     {
 		$searchModel = new SearchModel();
+		$model = new Model;
 		
         return $this->render('index', [
 			'searchModel' => $searchModel,
-			'model' => new Model,
+			'model' => $model,
+			'searchModelName' => StringHelper::basename($searchModel::className()),
+			'modelName' => StringHelper::basename($model::className()),
+			'tableName' => Model::tableName(),
+			'loading_img' =>($loading_img = Yii::$app->assetManager->publish(Yii::getAlias('@vendor').'/alhimik1986/yii2_js_view_module/assets/img/ajax-loader.gif')) ? $loading_img[1] : '',
 			//'dataProvider' => $searchModel->search(Yii::$app->request->queryParams),
 		]);
     }
