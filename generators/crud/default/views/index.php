@@ -65,20 +65,16 @@ Yii::$app->view->registerJs($this->render('index/_js_table', ['modelName'=>$mode
 <!-- Этот id нужен для разделения crud-ов, когда на одной странице находится несколько таких таблиц, чтобы на каждую таблицу дейстовали свои кнопки. -->
 <!-- This id required for the separation of several crud-s, when some crud-tables are on the same page. Dividing them by the id, the every buttons works for corresponding tables. -->
 <div id="<?= '<?=' ?> $modelName?>-wrapper">
+
 	<!-- The custom validation errors will be displayed in this block -->
 	<div id="<?= '<?=' ?>$modelName?>-errors"></div>
-	
-	<?= '<?php' ?> $form = ActiveForm::begin([
-		'id'=>$modelName.'-form',
-		'enableClientValidation' => true,
-		'options' => [
-			'tabindex' => 2, // The tabindex needs for working the hot keys in the form
-		],
-	]); ?>
+
+	<?= '<?php' ?> $form = ActiveForm::begin(['id'=>$modelName.'-form']); ?>
+
     <div>
 		<!-- Additional table header -->
 		<?= '<?=' ?> $this->render('index/_tableHeader') ?>
-		
+
 		<!-- Table -->
 		<div class="grid-view">
 			<table class="table table-striped table-bordered table-condensed" id="<?= '<?='?>$modelName?>-table">
@@ -124,6 +120,6 @@ Yii::$app->view->registerJs($this->render('index/_js_table', ['modelName'=>$mode
 			</table>
 		</div>
     </div>
-	
+
 	<?= "<?php " ?>ActiveForm::end(); ?>
 </div>
