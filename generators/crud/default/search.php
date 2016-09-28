@@ -86,6 +86,7 @@ class <?= $searchModelClass ?> extends <?= isset($modelAlias) ? $modelAlias : $m
         }
 
         // grid filtering conditions
+		$t = self::tableName();
         <?= implode("\n        ", $searchConditions) ?>
 
 		// Сортировка по нескольким полям таблицы, и вывод результата в виде массива, а не в виде объектов (для экономии памяти)

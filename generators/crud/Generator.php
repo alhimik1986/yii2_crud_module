@@ -436,10 +436,10 @@ class Generator extends \yii\gii\Generator
                 case Schema::TYPE_TIME:
                 case Schema::TYPE_DATETIME:
                 case Schema::TYPE_TIMESTAMP:
-                    $hashConditions[] = "'{$column}' => \$this->{$column},";
+                    $hashConditions[] = " \$t.'.{$column}' => \$this->{$column},";
                     break;
                 default:
-                    $likeConditions[] = "->andFilterWhere(['like', '{$column}', \$this->{$column}])";
+                    $likeConditions[] = "->andFilterWhere(['like', \$t.'.{$column}', \$this->{$column}])";
                     break;
             }
         }
