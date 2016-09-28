@@ -9,7 +9,8 @@
  * Пример использования:
  * ```
  * $sort = (new alhimik1986\yii2_crud_module\web\Sort)
- *     ->setOrderByDefault('id asc')
+ *     ->setOrderByDefault('id asc')                    // сортировать по указанным колонкам, если не указана сортировка
+ *     ->appendAllowedColumns(['tableName.columnName']) // дополнительные колонки, по которым разрешить сортировку
  *     ->getOrder(Yii::$app->request->queryParams, $searchModel);
  * ```
  * или 
@@ -25,11 +26,25 @@ use Yii;
 class Sort
 {
 	protected $allowedColumns = null;
-	protected $appendAllowedColumns = null;
+	protected $additionalAllowedColumns = null;
 	protected $orderByDefault = null;
-	public function setAllowedColumns($value)       { $this->allowedColumns = $value; return $this;}
-	public function setAppendAllowedColumns($value) { $this->appendAllowedColumns = $value; return $this;}
-	public function setOrderByDefault($value)       { $this->orderByDefault = $value; return $this;}
+
+	public function setAllowedColumns($value)
+	{
+		$this->allowedColumns = $value; return $this;
+	}
+
+	public function appendAllowedColumns($value)
+	{
+		$this->additionalAllowedColumns = $value; return $this;
+	}
+
+	public function setOrderByDefault($value)
+	{
+		$this->orderByDefault = $value; return $this;
+	}
+
+
 	/**
 	 * @param mixed $search Параметры поиска, принятые с формы.
 	 * @param ActiveRecord $model Модель поиска.
@@ -40,9 +55,9 @@ class Sort
 		$order = '';
 		
 		if (isset($search['order'])) {
-			$allowedColumns       = is_null($this->allowedColumns)       ? self::getAllowedToOrderColumns($model) : $this->allowedColumns;
-			$appendAllowedColumns = is_null($this->appendAllowedColumns) ? self::appendAllowedToOrderColumns()    : $this->appendAllowedColumns;
-			foreach($appendAllowedColumns as $column)
+			$allowedColumns = is_null($this->allowedColumns) ? self::getAllowedToOrderColumns($model) : $this->allowedColumns;
+			$additionalAllowedColumns = is_null($this->additionalAllowedColumns) ? self::appendAllowedToOrderColumns() : $this->additionalAllowedColumns;
+			foreach($additionalAllowedColumns as $column)
 				$allowedColumns[] = $column;
 			$order = self::getOrderByAllowedColumns($search['order'], $allowedColumns, array('asc', 'desc'));
 		} else {
@@ -51,7 +66,9 @@ class Sort
 		
 		return $order;
 	}
-	// @return array Список всех колонок, по которым только возможно сортировать вообще.
+	/**
+	 * @return array Список всех колонок, по которым только возможно сортировать вообще.
+	 */
 	private static function getAllowedToOrderColumns($model)
 	{
 		$result = array();
@@ -62,12 +79,16 @@ class Sort
 		
 		return $result;
 	}
-	// @return array Список колонок, разрешенных для сортировки, который нужно добавить к тому, что по умолчанию.
+	/**
+	 * @return array Список колонок, разрешенных для сортировки, который нужно добавить к тому, что по умолчанию.
+	 */
 	private static function appendAllowedToOrderColumns()
 	{
 		return array();
 	}
-	// @return string Сортировка по умолчанию (если параметр сортировки не задан).
+	/**
+	 * @return string Сортировка по умолчанию (если параметр сортировки не задан).
+	 */
 	private static function getOrderByDefault($model)
 	{
 		$pk = $model::primaryKey();
@@ -102,7 +123,8 @@ class Sort
 		$keys = array(); $values = array();
 		foreach($allowableKeys as $key) $keys[$key] = $key;
 		foreach($allowableValues as $value) $values[$value] = $value;
-		$allowableKeys = $keys; $allowableValues = $values;
+		$allowableKeys = $keys;
+		$allowableValues = $values;
 		
 		$result = '';
 		if (is_array($data)) foreach($data as $column=>$order) {
