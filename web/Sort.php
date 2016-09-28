@@ -10,6 +10,7 @@
  * ```
  * $sort = (new alhimik1986\yii2_crud_module\web\Sort)
  *     ->setOrderByDefault('id asc')                    // сортировать по указанным колонкам, если не указана сортировка
+ *     ->setAllowedColumns(['tableName.columnName'])    // колонки, по которым разрешить сортировку (по умолчанию устнановлены все колонки таблицы)
  *     ->appendAllowedColumns(['tableName.columnName']) // дополнительные колонки, по которым разрешить сортировку
  *     ->getOrder(Yii::$app->request->queryParams, $searchModel);
  * ```
