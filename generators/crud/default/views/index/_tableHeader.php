@@ -1,3 +1,9 @@
+<?php
+$l18n = $generator->enableI18N;
+function translating3($l18n, $message) {
+	return $l18n ? '<?= Yii::t(\'app\', \''.$message.'\') ?>' : $message;
+}
+?>
 <?= '<?php' ?> use yii\helpers\Html; ?>
 
 <div style="background: #efefef; padding:10px 10px 0 10px; border-top-left-radius:3px; border-top-right-radius:3px; border:1px solid #ccc;">
@@ -9,7 +15,7 @@
 		</p>
 	</div>
 	<div style="float:left; margin-left:50px; margin-top:5px;">
-		<?= '<?=' ?> Yii::t('app', 'Results per page')?>: 
+		<?=translating3($l18n, 'Results per page'); ?>:
 		<?= '<?=' ?> Html::dropDownList('per-page', 10, [1=>1, 3=>3, 5=>5, 10=>10, 30=>30, 100=>100], ['class'=>'search-on-change']); ?>
 	</div>
 	<div style="float:right;">
