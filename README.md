@@ -11,7 +11,7 @@
 
 Демонстрация: http://tfb7950x.bget.ru/application/web/index.php?r=film
 
-![Yii2AjaxCrud Screenshot](https://raw.githubusercontent.com/alhimik1986/yii2_crud_module/master/screenshot.png)
+[![Видео](https://i.ytimg.com/vi_webp/dON64knduyg/sddefault.webp)](https://www.youtube.com/watch?v=dON64knduyg)
 
 ## Характеристики
 - Добавление, чтение, удаление, обновление записей без перезагрузки страницы методом ajax
