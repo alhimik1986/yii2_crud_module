@@ -1,6 +1,5 @@
 {
     "name": "alhimik1986/yii2_crud_module",
-	"version": "1.0.0",
     "description": "Excellent yii2 gii code generator for creating ajax applications.",
     "keywords": [
         "yii2",
