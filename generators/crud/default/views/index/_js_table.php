@@ -7,6 +7,7 @@ function translating6($l18n, $message) {
 ?>
 <?= '<?php' ?> /* @var $modelName string */ ?>
 <?= '<?php' ?> /* @var $loading_img string */ ?>
+<?= '<?php' ?> /* @var $controller_id string */ ?>
 <?= '<?php' ?> if (false): ?><script type="text/javascript"><?= '<?php' ?> endIf; // Эта строка нужна только для подстветки синтаксиса ?>
 <?= '<?php' ?> use yii\helpers\Url; ?>
 
@@ -37,7 +38,7 @@ function translating6($l18n, $message) {
 			on: 'click',
 			ajax: function(settings) {
 				return {
-					url: '<?= '<?=' ?> Url::to([Yii::$app->controller->id.'/create']) ?>'
+					url: '<?= '<?=' ?> Url::to([$controller_id.'/create']) ?>'
 				};
 			},
 			success : function(data, settings) {
@@ -85,7 +86,7 @@ function translating6($l18n, $message) {
 			on: 'click',
 			ajax: function(settings) {
 				return {
-					url: '<?= '<?=' ?> Url::to([Yii::$app->controller->id.'/update']) ?>',
+					url: '<?= '<?=' ?> Url::to([$controller_id.'/update']) ?>',
 					data: {id: settings.create.$.attr('data_id')}
 				};
 			},
@@ -117,7 +118,7 @@ function translating6($l18n, $message) {
 				var url = $form.attr('action');
 				var data = $form.serializeArray();
 				if ( settings.submit.$.hasClass('ajax-form-button-delete')) {
-					url = '<?= '<?=' ?> Url::to([Yii::$app->controller->id.'/delete']) ?>';
+					url = '<?= '<?=' ?> Url::to([$controller_id.'/delete']) ?>';
 					data = {
 						<?= '<?=' ?> $modelName ?>: {
 							id: settings.create.$.attr('data_id')
@@ -155,7 +156,7 @@ function translating6($l18n, $message) {
 					return false;
 				
 				return {
-					url: '<?= '<?=' ?> Url::to([Yii::$app->controller->id.'/delete']) ?>',
+					url: '<?= '<?=' ?> Url::to([$controller_id.'/delete']) ?>',
 					data: {
 						<?= '<?=' ?> $modelName ?>: {
 							id: settings.create.$.attr('delete_data_id')
@@ -193,7 +194,7 @@ function translating6($l18n, $message) {
 				});
 				$('.select-all-records-checkbox').prop('checked', false);
 				return {
-					url: '<?= '<?=' ?> Url::to([Yii::$app->controller->id.'/delete-selected']) ?>',
+					url: '<?= '<?=' ?> Url::to([$controller_id.'/delete-selected']) ?>',
 					data: {
 						<?= '<?=' ?> $modelName ?>: {
 							ids: ids
@@ -224,7 +225,7 @@ function translating6($l18n, $message) {
 			on: 'click',
 			ajax: function(settings) {
 				return {
-					url: '<?= '<?=' ?> Url::to([Yii::$app->controller->id.'/view']) ?>',
+					url: '<?= '<?=' ?> Url::to([$controller_id.'/view']) ?>',
 					data: {id: settings.create.$.attr('view_data_id')}
 				};
 			},
