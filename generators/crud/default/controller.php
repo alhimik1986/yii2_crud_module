@@ -71,6 +71,8 @@ class <?= $controllerClass ?> extends Controller
 			'tableName' => Model::tableName(),
 			'loading_img' =>($loading_img = Yii::$app->assetManager->publish(Yii::getAlias('@vendor').'/alhimik1986/yii2_js_view_module/assets/img/ajax-loader.gif')) ? $loading_img[1] : '',
 			//'dataProvider' => $searchModel->search(Yii::$app->request->queryParams),
+			//'models' => $dataProvider->getModels(),
+			//'pagerInfo' => \alhimik1986\yii2_crud_module\web\Pager::getPagerInfo(Yii::$app->request->queryParams, $dataProvider->totalCount),
 		]);
     }
 
@@ -170,6 +172,8 @@ class <?= $controllerClass ?> extends Controller
 			return $this->renderJson('_table', [
 				'searchModel' => $searchModel,
 				'dataProvider' => $dataProvider,
+				'models' => $dataProvider->getModels(),
+				'pagerInfo' => \alhimik1986\yii2_crud_module\web\Pager::getPagerInfo(Yii::$app->request->queryParams, $dataProvider->totalCount),
 			]);
 		} else {
 			\alhimik1986\yii2_crud_module\web\JsonController::checkErrorsAndDisplayResult($searchModel);

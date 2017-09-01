@@ -20,13 +20,16 @@ class Pager
 	 *     'page'  => '', // текущая страница в пейджере
 	 *     'count' => '', // общее число результатов
 	 * )
+	 * @param int $perPageDefault Максимальное количество результатов по умолчанию
+	 * @param int $maxResults Максимальное количество результатов на страницу, если не указано
+	 * @param int $maxPages Максимальное число страниц в пейджере
 	 * 
 	 * @return array Вся информация о пейджере (левый, средний, правый пейджер и число результатов).
 	 */
-	public static function getPagerInfo($search, $count)
+	public static function getPagerInfo($search, $count, $perPageDefault=10, $maxResults=1000, $maxPages=5)
 	{
-		$resultsPerPage = (isset($search['per-page']) AND (int)$search['per-page']) ? (int)$search['per-page'] : Yii::$app->settings->param['pager']['default']['resultsPerPageDefault'];
-		$resultsPerPage = (($resultsPerPage > 0) AND ($resultsPerPage <= Yii::$app->settings->param['pager']['default']['resultsPerPageMax'])) ? $resultsPerPage : Yii::$app->settings->param['pager']['default']['resultsPerPageMax'];
+		$resultsPerPage = (isset($search['per-page']) AND (int)$search['per-page']) ? (int)$search['per-page'] : $perPageDefault;
+		$resultsPerPage = (($resultsPerPage > 0) AND ($resultsPerPage <= $maxResults)) ? $resultsPerPage : $maxResults;
 		
 		$page = (isset($search['page']) AND (int)$search['page']) ? (int)$search['page'] : 1; // Текущая страница в пейджере
 		$pager = self::getPagesList($count, $page, $resultsPerPage);
@@ -39,14 +42,14 @@ class Pager
 	 * @param int $count Число результатов поиска
 	 * @param int $page Текущая страница
 	 * @param int $resultsPerPage Результатов на страницу
+	 * @param int $maxPages Максимальное число страниц в пейджере
 	 * @return array Список страниц в результатах поиска (левый, средний и правый pager)
 	 */
-	public static function getPagesList($count, $page, $resultsPerPage)
+	public static function getPagesList($count, $page, $resultsPerPage, $maxPages=5)
 	{
 		// Настройки
 		$pagerLeftCount      = 1; // Число страниц в левом пейджере
 		$pagerRightCount     = 1; // Число страниц в правом пейджере
-		$maxPages = Yii::$app->settings->param['pager']['default']['maxPages']; // Максимальное число страниц в пейджере
 		
 		// Список страниц в среднем пейджере при бесконечном числе результатов.
 		$pagesCount = ceil($count / $resultsPerPage); // Число страниц в пейджере в результатах поиска
@@ -78,7 +81,12 @@ class Pager
 				//unset($middle[end($middle)]);
 			}
 		}
-		
+
+		// Если текущая страница лежит за пределами пейджера, то текущая страница равна последней странице в пейджере
+		if ($page*$resultsPerPage > $count) {
+			$page = $pagesCount;
+		}
+
 		return array(
 			'left'  =>$left, 'middle'=>$middle, 'right'=>$right, // Число страниц в левом, правом и среднем пейджере
 			'start' =>(($page - 1)*$resultsPerPage + 1 < 1) ? 0 : ($page - 1)*$resultsPerPage + 1, // Какая по счету показана первая строка результата

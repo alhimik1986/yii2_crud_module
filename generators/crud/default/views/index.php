@@ -48,6 +48,8 @@ echo "<?php\n";
 /* @var $tableName string */
 /* @var $loading_img string */
 /* @var $dataProvider yii\data\ActiveDataProvider */
+/* @var $models array */
+/* @var $pagerInfo array */
 
 use yii\helpers\Html;
 use yii\helpers\Url;
@@ -115,7 +117,7 @@ Yii::$app->view->registerJs($this->render('index/_js_table', ['modelName'=>$mode
 					</tr>
 				</thead>
 				<tbody>
-					<?= '<?php' ?> //echo $this->render('_table', ['dataProvider'=>$dataProvider, 'pk'=>$searchModel->tableSchema->primaryKey]); ?>
+					<?= '<?php' ?> //echo $this->render('_table', ['dataProvider'=>$dataProvider, 'pk'=>$searchModel->tableSchema->primaryKey, 'models'=>$models, 'pagerInfo'=>$pagerInfo]); ?>
 				</tbody>
 			</table>
 		</div>

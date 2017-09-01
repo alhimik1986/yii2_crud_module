@@ -40,12 +40,12 @@ echo "<?php\n";
 ?>
 <?= !empty($generator->searchModelClass) ? "/* @var \$searchModel " . ltrim($generator->searchModelClass, '\\') . " */\n" : '' ?>
 /* @var $dataProvider yii\data\ActiveDataProvider */
+/* @var $models array */
+/* @var $pagerInfo array */
 
 use yii\helpers\Url;
 
 $counter = 0;
-$models = $dataProvider->getModels();
-$pagerInfo = alhimik1986\yii2_crud_module\web\Pager::getPagerInfo(Yii::$app->request->queryParams, $dataProvider->totalCount);
 $columns = <?= (count($columns) + 3) ?>;
 ?>
 
