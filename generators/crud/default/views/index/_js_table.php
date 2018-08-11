@@ -29,7 +29,7 @@ function translating6($l18n, $message) {
 		loadingElem: loadingElem,
 		loadingStyle: loadingStyle,
 		csrf: csrf,
- 		form: {
+		form: {
 			selector: form_wrapper_id // Селектор формы (ее обертки). Нужна, т.к. при открытии новой формы нужно закрыть предыдущую
 		},
 		create: {
@@ -77,7 +77,7 @@ function translating6($l18n, $message) {
 		loadingElem: loadingElem,
 		loadingStyle: loadingStyle,
 		csrf: csrf,
- 		form: {
+		form: {
 			selector: form_wrapper_id  // Селектор формы (ее обертки). Нужна, т.к. при открытии новой формы нужно закрыть предыдущую
 		},
 		create: {

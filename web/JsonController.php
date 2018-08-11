@@ -20,16 +20,20 @@ class JsonController extends \yii\web\Controller
 	public static function checkErrorsAndDisplayResult($model, $result='ok')
 	{
 		if(Yii::$app->request->isAjax) {
-			$messages = self::getMessages();
+			$messages = array();
+			foreach(Yii::$app->session->getAllFlashes() as $type=>$message)
+				$messages[][$type] = $message;
+			
 			$className = StringHelper::basename($model::className());
+			
 			if ($model->hasErrors()) {
-				echo json_encode(array(
+				return json_encode(array(
 					'status'   => 'error',
 					'content'  => array($className => $model->getErrors()),
 					'messages' => $messages,
 				));
 			} else {
-				echo json_encode(array(
+				return json_encode(array(
 					'status'   => 'success',
 					'content'  => $result,
 					'messages' => $messages,
@@ -57,11 +61,15 @@ class JsonController extends \yii\web\Controller
 		$result = null;
 		
 		if(Yii::$app->request->isAjax) {
+			$messages = array();
 			$content = $this->renderPartial($view, $params, true);
+			foreach(Yii::$app->session->getAllFlashes() as $type=>$message)
+				$messages[][$type] = $message;
+
 			$result = json_encode(array(
 				'status'   => 'success',
 				'content'  => $content,
-				'messages' => self::getMessages(),
+				'messages' => $messages,
 			));
 		} else {
 			$result = $this->render($view, $params, true);
@@ -70,7 +78,7 @@ class JsonController extends \yii\web\Controller
 		if ($getContent) {
 			return $result;
 		} else {
-			echo $result;
+			return $result;
 		}
 	}
 
@@ -81,11 +89,15 @@ class JsonController extends \yii\web\Controller
 	public function echoJson($view, $params=array())
 	{
 		if(Yii::$app->request->isAjax) {
+			$messages = array();
 			$content = $this->renderPartial($view, $params, true);
-			echo json_encode(array(
+			foreach(Yii::$app->session->getAllFlashes() as $type=>$message)
+				$messages[][$type] = $message;
+
+			return json_encode(array(
 				'status'   => 'success',
 				'content'  => $content,
-				'messages' => self::getMessages(),
+				'messages' => $messages,
 			));
 		} else {
 			$this->renderPartial($view, $params);
@@ -99,11 +111,13 @@ class JsonController extends \yii\web\Controller
 	public function renderJsonError($view, $params=array())
 	{
 		if(Yii::$app->request->isAjax) {
+			$messages = array();
 			$content = array(array(array($this->renderPartial($view, $params, true))));
-			echo json_encode(array(
+			foreach(Yii::$app->session->getAllFlashes() as $type=>$message) $messages[][$type] = $message;
+			return json_encode(array(
 				'status'   => 'error',
 				'content'  => $content,
-				'messages' => self::getMessages(),
+				'messages' => $messages,
 			));
 		} else {
 			$this->render($view, $params);
@@ -121,10 +135,12 @@ class JsonController extends \yii\web\Controller
 	{
 		if(Yii::$app->request->isAjax) {
 			$text = ($text != '') ? array(array(array($text))) : '';
-			echo json_encode(array(
+			$messages = array();
+			foreach(Yii::$app->session->getAllFlashes() as $type=>$message) $messages[][$type] = $message;
+			return json_encode(array(
 				'status'   => 'error',
 				'content'  => $text,
-				'messages' => self::getMessages(),
+				'messages' => $messages,
 			));
 
 			if ($throwException)
@@ -133,19 +149,7 @@ class JsonController extends \yii\web\Controller
 			if ($throwException)
 				throw new \yii\web\HttpException($httpStatusCode, $text);
 			else
-				echo $text;
+				return $text;
 		}
-	}
-
-
-	/**
-	 * @return array Список flash-сообщений.
-	 */
-	public static function getMessages()
-	{
-		$messages = array();
-		foreach(Yii::$app->session->getAllFlashes() as $type=>$message)
-			$messages[][$type] = $message;
-		return $messages;
 	}
 }

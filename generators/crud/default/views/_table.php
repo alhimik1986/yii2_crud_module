@@ -14,23 +14,23 @@ $count = 0;
 $columns = [];
 $remaining_columns = [];
 if (($tableSchema = $generator->getTableSchema()) === false) {
-    foreach ($generator->getColumnNames() as $name) {
-        if (++$count < 6) {
-            $columns[$name] = $name;
-        } else {
-            $remaining_columns[$name] = $name;
-        }
-    }
+	foreach ($generator->getColumnNames() as $name) {
+		if (++$count < 6) {
+			$columns[$name] = $name;
+		} else {
+			$remaining_columns[$name] = $name;
+		}
+	}
 } else {
-    foreach ($tableSchema->columns as $column) {
-        $format = $generator->generateColumnFormat($column);
+	foreach ($tableSchema->columns as $column) {
+		$format = $generator->generateColumnFormat($column);
 		$name = $column->name;
-        if (++$count < 6) {
-            $columns[$name] = $name;
-        } else {
-            $remaining_columns[$name] = $name;
-        }
-    }
+		if (++$count < 6) {
+			$columns[$name] = $name;
+		} else {
+			$remaining_columns[$name] = $name;
+		}
+	}
 }
 
 // get pk name
@@ -40,12 +40,12 @@ echo "<?php\n";
 ?>
 <?= !empty($generator->searchModelClass) ? "/* @var \$searchModel " . ltrim($generator->searchModelClass, '\\') . " */\n" : '' ?>
 /* @var $dataProvider yii\data\ActiveDataProvider */
-/* @var $models array */
-/* @var $pagerInfo array */
 
 use yii\helpers\Url;
 
 $counter = 0;
+$models = $dataProvider->getModels();
+$pagerInfo = alhimik1986\yii2_crud_module\web\Pager::getPagerInfo(Yii::$app->request->queryParams, $dataProvider->totalCount);
 $columns = <?= (count($columns) + 3) ?>;
 ?>
 

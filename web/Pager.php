@@ -20,36 +20,67 @@ class Pager
 	 *     'page'  => '', // текущая страница в пейджере
 	 *     'count' => '', // общее число результатов
 	 * )
-	 * @param int $perPageDefault Максимальное количество результатов по умолчанию
-	 * @param int $maxResults Максимальное количество результатов на страницу, если не указано
-	 * @param int $maxPages Максимальное число страниц в пейджере
 	 * 
 	 * @return array Вся информация о пейджере (левый, средний, правый пейджер и число результатов).
 	 */
-	public static function getPagerInfo($search, $count, $perPageDefault=10, $maxResults=1000, $maxPages=5)
+	public static function getPagerInfo($search, $count)
 	{
-		$resultsPerPage = (isset($search['per-page']) AND (int)$search['per-page']) ? (int)$search['per-page'] : $perPageDefault;
-		$resultsPerPage = (($resultsPerPage > 0) AND ($resultsPerPage <= $maxResults)) ? $resultsPerPage : $maxResults;
-		
+		$resultsPerPage = self::getResultsPerPage($search);
+		$resultsPerPage = self::getResultsPerPageNotMoreThanMax($resultsPerPage);
+
 		$page = (isset($search['page']) AND (int)$search['page']) ? (int)$search['page'] : 1; // Текущая страница в пейджере
 		$pager = self::getPagesList($count, $page, $resultsPerPage);
 		$pager['count'] = $count;
 		return $pager;
 	}
 
+	/**
+	 * @param array $search
+	 * @return integer Число записей на страницу, полученное из http-запроса
+	 */
+	private static function getResultsPerPage($search)
+	{
+		$defaultPerPage = Yii::$app->hasModule('settings')
+			? Yii::$app->settings->param['pager']['default']['resultsPerPageDefault']
+			: 20;
+
+		$resultsPerPage = (isset($search['per-page']) AND (int)$search['per-page'])
+			? (int)$search['per-page']
+			: $defaultPerPage;
+
+		return $resultsPerPage;
+	}
+
+	/**
+	 * @param integer $resultsPerPage Число записей на страницу, полученное из http-запроса
+	 * @return integer Число записей на страницу, но не больше, чем задано в модуле настроек
+	 */
+	private static function getResultsPerPageNotMoreThanMax($resultsPerPage)
+	{
+		$max = Yii::$app->hasModule('settings')
+			? Yii::$app->settings->param['pager']['default']['resultsPerPageMax']
+			: 1000;
+
+		return ($resultsPerPage > 0 AND $resultsPerPage <= $max)
+			? $resultsPerPage
+			: $max;
+	}
 
 	/**
 	 * @param int $count Число результатов поиска
 	 * @param int $page Текущая страница
 	 * @param int $resultsPerPage Результатов на страницу
-	 * @param int $maxPages Максимальное число страниц в пейджере
 	 * @return array Список страниц в результатах поиска (левый, средний и правый pager)
 	 */
-	public static function getPagesList($count, $page, $resultsPerPage, $maxPages=5)
+	public static function getPagesList($count, $page, $resultsPerPage)
 	{
 		// Настройки
 		$pagerLeftCount      = 1; // Число страниц в левом пейджере
 		$pagerRightCount     = 1; // Число страниц в правом пейджере
+		// Максимальное число страниц в пейджере
+		$maxPages = Yii::$app->hasModule('settings')
+			? Yii::$app->settings->param['pager']['default']['maxPages']
+			: 10;
 		
 		// Список страниц в среднем пейджере при бесконечном числе результатов.
 		$pagesCount = ceil($count / $resultsPerPage); // Число страниц в пейджере в результатах поиска
@@ -81,12 +112,7 @@ class Pager
 				//unset($middle[end($middle)]);
 			}
 		}
-
-		// Если текущая страница лежит за пределами пейджера, то текущая страница равна последней странице в пейджере
-		if ($page*$resultsPerPage > $count) {
-			$page = $pagesCount;
-		}
-
+		
 		return array(
 			'left'  =>$left, 'middle'=>$middle, 'right'=>$right, // Число страниц в левом, правом и среднем пейджере
 			'start' =>(($page - 1)*$resultsPerPage + 1 < 1) ? 0 : ($page - 1)*$resultsPerPage + 1, // Какая по счету показана первая строка результата

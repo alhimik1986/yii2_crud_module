@@ -19,23 +19,23 @@ $count = 0;
 $columns = [];
 $remaining_columns = [];
 if (($tableSchema = $generator->getTableSchema()) === false) {
-    foreach ($generator->getColumnNames() as $name) {
-        if (++$count < 6) {
-            $columns[$name] = $name;
-        } else {
-            $remaining_columns[$name] = $name;
-        }
-    }
+	foreach ($generator->getColumnNames() as $name) {
+		if (++$count < 6) {
+			$columns[$name] = $name;
+		} else {
+			$remaining_columns[$name] = $name;
+		}
+	}
 } else {
-    foreach ($tableSchema->columns as $column) {
-        $format = $generator->generateColumnFormat($column);
+	foreach ($tableSchema->columns as $column) {
+		$format = $generator->generateColumnFormat($column);
 		$name = $column->name;
-        if (++$count < 6) {
-            $columns[$name] = $name;
-        } else {
-            $remaining_columns[$name] = $name;
-        }
-    }
+		if (++$count < 6) {
+			$columns[$name] = $name;
+		} else {
+			$remaining_columns[$name] = $name;
+		}
+	}
 }
 
 
@@ -48,8 +48,6 @@ echo "<?php\n";
 /* @var $tableName string */
 /* @var $loading_img string */
 /* @var $dataProvider yii\data\ActiveDataProvider */
-/* @var $models array */
-/* @var $pagerInfo array */
 
 use yii\helpers\Html;
 use yii\helpers\Url;
@@ -73,7 +71,7 @@ Yii::$app->view->registerJs($this->render('index/_js_table', ['modelName'=>$mode
 
 	<?= '<?php' ?> $form = ActiveForm::begin(['id'=>$modelName.'-form']); ?>
 
-    <div>
+	<div>
 		<!-- Additional table header -->
 		<?= '<?=' ?> $this->render('index/_tableHeader') ?>
 
@@ -117,11 +115,11 @@ Yii::$app->view->registerJs($this->render('index/_js_table', ['modelName'=>$mode
 					</tr>
 				</thead>
 				<tbody>
-					<?= '<?php' ?> //echo $this->render('_table', ['dataProvider'=>$dataProvider, 'pk'=>$searchModel->tableSchema->primaryKey, 'models'=>$models, 'pagerInfo'=>$pagerInfo]); ?>
+					<?= '<?php' ?> //echo $this->render('_table', ['dataProvider'=>$dataProvider, 'pk'=>$searchModel->tableSchema->primaryKey]); ?>
 				</tbody>
 			</table>
 		</div>
-    </div>
+	</div>
 
 	<?= "<?php " ?>ActiveForm::end(); ?>
 </div>

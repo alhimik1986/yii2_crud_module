@@ -10,7 +10,7 @@ use yii\helpers\StringHelper;
 $model = new $generator->modelClass();
 $safeAttributes = $model->safeAttributes();
 if (empty($safeAttributes)) {
-    $safeAttributes = $model->attributes();
+	$safeAttributes = $model->attributes();
 }
 
 $l18n = $generator->enableI18N;
@@ -40,7 +40,7 @@ use yii\helpers\StringHelper;
 			'tabindex' => 2, // It's need to the hot keys works in the form
 		],
 	]); ?>
-	 <div class="panel panel-default" style="margin:0;">
+	<div class="panel panel-default" style="margin:0;">
 
 		<!-- Form head -->
 		<table class="panel-heading" style="width:100%; cursor: move;"><tr>
@@ -52,9 +52,9 @@ use yii\helpers\StringHelper;
 		<!-- Form body -->
 		<div class="panel-body ajax-form-body" style="overflow: auto; height:80%;"> <!-- к .ajax-form-body, .ajax-form-footer привязано изменение размера по вертикали, изменение размера по горизонтали привязано к .ajax-form --> <!-- To .ajax-form-body, .ajax-form-footer binded the resizing by vertical, resizing by horizontal binded to .ajax-form -->
 <?php foreach ($generator->getColumnNames() as $attribute) {
-    if (in_array($attribute, $safeAttributes)) {
-        echo "			<?= " . $generator->generateActiveField($attribute) . " ?>\n\n";
-    }
+	if (in_array($attribute, $safeAttributes)) {
+		echo "			<?= " . $generator->generateActiveField($attribute) . " ?>\n\n";
+	}
 } ?>
 		</div>
 		

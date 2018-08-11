@@ -10,7 +10,7 @@ use yii\helpers\StringHelper;
 $model = new $generator->modelClass();
 $safeAttributes = $model->safeAttributes();
 if (empty($safeAttributes)) {
-    $safeAttributes = $model->attributes();
+	$safeAttributes = $model->attributes();
 }
 
 $l18n = $generator->enableI18N;
@@ -59,14 +59,14 @@ use yii\helpers\StringHelper;
 				'attributes' => [
 <?php
 if (($tableSchema = $generator->getTableSchema()) === false) {
-    foreach ($generator->getColumnNames() as $name) {
-        echo "					'" . $name . "',\n";
-    }
+	foreach ($generator->getColumnNames() as $name) {
+		echo "					'" . $name . "',\n";
+	}
 } else {
-    foreach ($generator->getTableSchema()->columns as $column) {
-        $format = $generator->generateColumnFormat($column);
-        echo "					'" . $column->name . ($format === 'text' ? "" : ":" . $format) . "',\n";
-    }
+	foreach ($generator->getTableSchema()->columns as $column) {
+		$format = $generator->generateColumnFormat($column);
+		echo "					'" . $column->name . ($format === 'text' ? "" : ":" . $format) . "',\n";
+	}
 }
 ?>
 				],
